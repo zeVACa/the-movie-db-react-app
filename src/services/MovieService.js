@@ -19,6 +19,10 @@ export default class MovieService {
 
     const res = await fetch(url);
 
+    if (!res.ok) {
+      throw new Error('server error');
+    }
+
     return res.json();
   }
 }
