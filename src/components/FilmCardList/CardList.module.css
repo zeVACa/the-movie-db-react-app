@@ -1,0 +1,12 @@
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media (max-width: 1010px) {
+  .cardList {
+    align-items: center;
+    flex-direction: column;
+  }
+} ;

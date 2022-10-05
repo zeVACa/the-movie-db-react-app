@@ -1,0 +1,88 @@
+.card {
+  width: 454px;
+  height: 281px;
+  margin-bottom: 35px;
+  display: flex;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.imageArea {
+  width: 183px;
+  height: 100%;
+  background-color: blue;
+  flex-shrink: 0;
+}
+
+.cardContent {
+  padding: 12px 9px 15px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.score {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 12px;
+  border: 2px solid #e9d100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleScoreRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.date {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  color: #827e7e;
+  margin-top: 7px;
+}
+
+.genre {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.65);
+  padding: 2px 5px 3px;
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  margin-right: 8px;
+  margin-bottom: 7px;
+}
+
+.description {
+  font-size: 11.7px;
+  line-height: 22px;
+}
+
+.stars {
+  width: 100%;
+}
+
+.descriptionRateColumn {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+@media (max-width: 560px) {
+  .card {
+    max-width: 100%;
+  }
+} ;
