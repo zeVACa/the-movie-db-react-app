@@ -1,55 +1,28 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 import { Alert, Spin } from 'antd';
-import FilmCard from '../FilmCard/FilmCard';
-import MovieService from '../../services/MovieService';
+import FilmCard from '../FilmCard';
 
 import styles from './CardList.module.css';
 import FilmsPagination from '../FilmsPagination/FilmsPagination';
 
 class FilmCardList extends Component {
-  movieService = new MovieService();
-
   constructor(props) {
     super(props);
 
-    this.state = {
-      movies: [],
-      hasError: false,
-      isDataLoading: true,
-      totalDataItems: 0,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.renderCardListByQureyAndPage('return', 1);
+    const { renderCardListByQureyAndPage } = this.props;
+    renderCardListByQureyAndPage('return', 1);
   }
 
-  renderCardListByQureyAndPage = (query, page) => {
-    this.movieService
-      .getSearchedMovies(query, page)
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          movies: response.results.map((movie) => ({
-            title: movie.original_title,
-            description: movie.overview,
-            rating: movie.vote_average,
-            date: movie.release_date,
-            id: movie.id,
-            posterImaage: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
-          })),
-          totalDataItems: response.total_results,
-          isDataLoading: false,
-        });
-      })
-      .catch(() => {
-        this.setState({ hasError: true });
-      });
-  };
-
   render() {
-    const { movies, hasError, isDataLoading, totalDataItems } = this.state;
+    const { movies, totalDataItems, isDataLoading, hasError, renderCardListByQureyAndPage } =
+      this.props;
 
     const movieCardsWithPagination = (
       <div className={styles.cardList}>
@@ -65,7 +38,7 @@ class FilmCardList extends Component {
         ))}
         <FilmsPagination
           totalDataItems={totalDataItems}
-          renderCardListByQureyAndPage={this.renderCardListByQureyAndPage}
+          renderCardListByQureyAndPage={renderCardListByQureyAndPage}
         />
       </div>
     );
@@ -80,16 +53,36 @@ class FilmCardList extends Component {
             showIcon
           />
         )}
-        {isDataLoading ? (
+        {isDataLoading && !hasError ? (
           <div className="loader-area">
             <Spin size="large" />
           </div>
         ) : (
-          !hasError && movieCardsWithPagination
+          !hasError && movies.length !== 0 && movieCardsWithPagination
+        )}
+        {!isDataLoading && !hasError && movies.length === 0 && (
+          <h2>По вашему запросу ничего не было найдено. Попробуй еще раз!</h2>
         )}
       </div>
     );
   }
 }
+
+FilmCardList.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      description: PropTypes.string,
+      rating: PropTypes.number,
+      date: PropTypes.string,
+      id: PropTypes.number,
+      posterImaage: PropTypes.string,
+    })
+  ).isRequired,
+  totalDataItems: PropTypes.number.isRequired,
+  isDataLoading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  renderCardListByQureyAndPage: PropTypes.func.isRequired,
+};
 
 export default FilmCardList;

@@ -18,7 +18,7 @@ function FilmCard({ title, description, rating, posterImaage, date }) {
       />
       <div className={styles.cardContent}>
         <div className={styles.titleScoreRow}>
-          <h3 className={styles.title}>{title}</h3>
+          <h3 className={styles.title}>{title.length > 33 ? `${title.slice(0, 33)}...` : title}</h3>
           <div className={styles.score}>{rating}</div>
         </div>
         <span className={styles.date}>{date}</span>
@@ -30,12 +30,7 @@ function FilmCard({ title, description, rating, posterImaage, date }) {
           <span className={styles.description}>
             {`${description.split(' ').slice(0, 28).join(' ')} ...`}
           </span>
-          <Rate
-            allowHalf
-            defaultValue={2.5}
-            count={10}
-            className={styles.stars}
-          />
+          <Rate allowHalf defaultValue={2.5} count={10} className={styles.stars} />
         </div>
       </div>
     </div>

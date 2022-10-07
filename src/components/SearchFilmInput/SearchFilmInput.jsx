@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 
 import { Input } from 'antd';
+import PropTypes from 'prop-types';
 
+import { debounce } from 'lodash';
 import styles from './SearchFilmInput.module.css';
 
-export default class SearchFilmInput extends Component {
+class SearchFilmInput extends Component {
+  debouncedFetching = debounce((query, page) => {
+    const { renderCardListByQureyAndPage } = this.props;
+    renderCardListByQureyAndPage(query, page);
+  }, 500);
+
   constructor() {
     super();
     this.state = {
@@ -13,6 +20,7 @@ export default class SearchFilmInput extends Component {
   }
 
   onChangeHandle = (e) => {
+    this.debouncedFetching(e.target.value, 1);
     this.setState({ inputValue: e.target.value });
   };
 
@@ -30,3 +38,9 @@ export default class SearchFilmInput extends Component {
     );
   }
 }
+
+SearchFilmInput.propTypes = {
+  renderCardListByQureyAndPage: PropTypes.func.isRequired,
+};
+
+export default SearchFilmInput;

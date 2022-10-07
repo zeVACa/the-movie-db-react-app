@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import styles from './FilmsPagination.module.css';
 
 function FilmsPagination({ totalDataItems, renderCardListByQureyAndPage }) {
-  console.log('total pages', totalDataItems);
-
   const onChangeHandle = (page) => {
-    console.log(page);
     renderCardListByQureyAndPage('return', page);
   };
 
