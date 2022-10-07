@@ -1,7 +1,9 @@
 import { Offline, Online } from 'react-detect-offline';
 import { Alert } from 'antd';
 
-import CardList from './components/FilmCardList/FilmCardList';
+import FilmCardList from './components/FilmCardList';
+import SearchFilmInput from './components/SearchFilmInput';
+
 import './index.css';
 
 function App() {
@@ -9,7 +11,8 @@ function App() {
     <div className="App">
       <Online>
         <div className="page-wrapper">
-          <CardList />
+          <SearchFilmInput />
+          <FilmCardList />
         </div>
       </Online>
       <Offline>

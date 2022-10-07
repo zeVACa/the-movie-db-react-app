@@ -4,18 +4,12 @@ export default class MovieService {
     this.BASE_URL = 'https://api.themoviedb.org/3';
   }
 
-  async getSearchedMovies(query) {
+  async getSearchedMovies(query, page) {
     const { BASE_URL, API_KEY } = this;
-
-    let finalQuery = query;
-
-    if (query === '' || !query) {
-      finalQuery = 'return';
-    }
 
     // !TODO query needs to be url encoded
 
-    const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&query=${finalQuery}`;
+    const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&query=${query}&page=${page}`;
 
     const res = await fetch(url);
 
