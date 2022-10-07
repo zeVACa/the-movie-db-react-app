@@ -28,7 +28,6 @@ class App extends Component {
     this.movieService
       .getSearchedMovies(query, page)
       .then((response) => {
-        console.log(response);
         this.setState({
           movies: response.results.map((movie) => ({
             title: movie.original_title,

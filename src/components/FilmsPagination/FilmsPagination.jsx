@@ -16,6 +16,7 @@ function FilmsPagination({ totalDataItems, renderCardListByQureyAndPage }) {
         pageSize="20"
         showSizeChanger={false}
         onChange={onChangeHandle}
+        hideOnSinglePage
       />
     </div>
   );

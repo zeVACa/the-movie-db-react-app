@@ -36,10 +36,6 @@ class FilmCardList extends Component {
             key={id}
           />
         ))}
-        <FilmsPagination
-          totalDataItems={totalDataItems}
-          renderCardListByQureyAndPage={renderCardListByQureyAndPage}
-        />
       </div>
     );
 
@@ -59,6 +55,13 @@ class FilmCardList extends Component {
           </div>
         ) : (
           !hasError && movies.length !== 0 && movieCardsWithPagination
+        )}
+
+        {!hasError && (
+          <FilmsPagination
+            totalDataItems={totalDataItems}
+            renderCardListByQureyAndPage={renderCardListByQureyAndPage}
+          />
         )}
         {!isDataLoading && !hasError && movies.length === 0 && (
           <h2>По вашему запросу ничего не было найдено. Попробуй еще раз!</h2>
