@@ -8,7 +8,8 @@ import styles from './SearchFilmInput.module.css';
 
 class SearchFilmInput extends Component {
   debouncedFetching = debounce((query, page) => {
-    const { renderCardListByQureyAndPage } = this.props;
+    const { renderCardListByQureyAndPage, setQuery } = this.props;
+    setQuery(query);
     renderCardListByQureyAndPage(query, page);
   }, 500);
 
@@ -41,6 +42,7 @@ class SearchFilmInput extends Component {
 
 SearchFilmInput.propTypes = {
   renderCardListByQureyAndPage: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired,
 };
 
 export default SearchFilmInput;

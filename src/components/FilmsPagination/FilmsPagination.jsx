@@ -1,30 +1,47 @@
+import { Component } from 'react';
+
 import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
 import styles from './FilmsPagination.module.css';
 
-function FilmsPagination({ totalDataItems, renderCardListByQureyAndPage }) {
-  const onChangeHandle = (page) => {
-    renderCardListByQureyAndPage('return', page);
+class FilmsPagination extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      page: 1,
+    };
+  }
+
+  onChangeHandle = (page) => {
+    const { renderCardListByQureyAndPage, query } = this.props;
+    renderCardListByQureyAndPage(query, page);
+    this.setState({ page });
   };
 
-  return (
-    <div className={styles.paginationArea}>
-      <Pagination
-        defaultCurrent={1}
-        total={totalDataItems > 10000 ? 10000 : totalDataItems}
-        pageSize="20"
-        showSizeChanger={false}
-        onChange={onChangeHandle}
-        hideOnSinglePage
-      />
-    </div>
-  );
+  render() {
+    const { totalDataItems } = this.props;
+    const { page } = this.state;
+    return (
+      <div className={styles.paginationArea}>
+        <Pagination
+          total={totalDataItems > 10000 ? 10000 : totalDataItems}
+          pageSize="20"
+          showSizeChanger={false}
+          onChange={this.onChangeHandle}
+          hideOnSinglePage
+          current={page}
+        />
+      </div>
+    );
+  }
 }
 
 FilmsPagination.propTypes = {
   totalDataItems: PropTypes.number,
   renderCardListByQureyAndPage: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
 };
 
 FilmsPagination.defaultProps = {

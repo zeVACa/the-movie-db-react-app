@@ -20,6 +20,7 @@ class App extends Component {
       hasError: false,
       isDataLoading: true,
       totalDataItems: 0,
+      query: 'return',
     };
   }
 
@@ -46,20 +47,28 @@ class App extends Component {
       });
   };
 
+  setQuery = (query) => {
+    this.setState({ query });
+  };
+
   render() {
-    const { movies, totalDataItems, isDataLoading, hasError } = this.state;
+    const { movies, totalDataItems, isDataLoading, hasError, query } = this.state;
 
     return (
       <div className="App">
         <Online>
           <div className="page-wrapper">
-            <SearchFilmInput renderCardListByQureyAndPage={this.renderCardListByQureyAndPage} />
+            <SearchFilmInput
+              renderCardListByQureyAndPage={this.renderCardListByQureyAndPage}
+              setQuery={this.setQuery}
+            />
             <FilmCardList
               renderCardListByQureyAndPage={this.renderCardListByQureyAndPage}
               movies={movies}
               totalDataItems={totalDataItems}
               isDataLoading={isDataLoading}
               hasError={hasError}
+              query={query}
             />
           </div>
         </Online>

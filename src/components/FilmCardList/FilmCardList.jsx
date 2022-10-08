@@ -21,7 +21,7 @@ class FilmCardList extends Component {
   }
 
   render() {
-    const { movies, totalDataItems, isDataLoading, hasError, renderCardListByQureyAndPage } =
+    const { movies, totalDataItems, isDataLoading, hasError, renderCardListByQureyAndPage, query } =
       this.props;
 
     const movieCardsWithPagination = (
@@ -61,6 +61,7 @@ class FilmCardList extends Component {
           <FilmsPagination
             totalDataItems={totalDataItems}
             renderCardListByQureyAndPage={renderCardListByQureyAndPage}
+            query={query}
           />
         )}
         {!isDataLoading && !hasError && movies.length === 0 && (
@@ -86,6 +87,7 @@ FilmCardList.propTypes = {
   isDataLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   renderCardListByQureyAndPage: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
 };
 
 export default FilmCardList;
