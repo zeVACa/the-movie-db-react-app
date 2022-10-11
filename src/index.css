@@ -29,6 +29,11 @@ body {
   margin-right: 4px !important;
 }
 
+.ant-tabs-nav::before {
+  max-width: 120px;
+  margin: 0 auto;
+}
+
 .loader-area {
   width: 100%;
   display: flex;

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 import { Offline, Online } from 'react-detect-offline';
-import { Alert } from 'antd';
+import { Alert, Tabs } from 'antd';
 
 import MovieService from './services/MovieService';
 
@@ -9,6 +9,7 @@ import FilmCardList from './components/FilmCardList';
 import SearchFilmInput from './components/SearchFilmInput';
 
 import './index.css';
+import RatedFilmList from './components/RatedFilmList/RatedFilmList';
 
 class App extends Component {
   movieService = new MovieService();
@@ -21,7 +22,20 @@ class App extends Component {
       isDataLoading: true,
       totalDataItems: 0,
       query: 'return',
+      ratedMovies: {},
+      activeTab: 1,
     };
+  }
+
+  componentDidMount() {
+    const moviesId = Object.keys(localStorage).filter((key) => key !== 'guestSessionId');
+    const ratedMovies = {};
+
+    for (let i = 0; i < moviesId.length; i += 1) {
+      ratedMovies[moviesId[i]] = localStorage.getItem(moviesId[i]);
+    }
+
+    this.setState({ ratedMovies });
   }
 
   renderCardListByQureyAndPage = (query, page) => {
@@ -33,7 +47,7 @@ class App extends Component {
           movies: response.results.map((movie) => ({
             title: movie.original_title,
             description: movie.overview,
-            rating: movie.vote_average,
+            voteAverage: movie.vote_average,
             date: movie.release_date,
             id: movie.id,
             posterImaage: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
@@ -51,13 +65,31 @@ class App extends Component {
     this.setState({ query });
   };
 
-  render() {
-    const { movies, totalDataItems, isDataLoading, hasError, query } = this.state;
+  rateMovie = (id, rating) => {
+    localStorage.setItem(id, rating);
+    this.movieService.sendMovieRate(id, rating);
+    this.setState((state) => ({
+      ratedMovies: { ...state.ratedMovies, [id]: String(rating) },
+    }));
+  };
 
-    return (
-      <div className="App">
-        <Online>
-          <div className="page-wrapper">
+  render() {
+    const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, activeTab } =
+      this.state;
+
+    this.movieService.getGuestSessionId().then((data) => {
+      if (!localStorage.getItem('guestSessionId')) {
+        localStorage.clear();
+        localStorage.setItem('guestSessionId', data.guest_session_id);
+      }
+    });
+
+    const items = [
+      {
+        label: 'Search',
+        key: '1',
+        children: (
+          <div>
             <SearchFilmInput
               renderCardListByQureyAndPage={this.renderCardListByQureyAndPage}
               setQuery={this.setQuery}
@@ -69,6 +101,29 @@ class App extends Component {
               isDataLoading={isDataLoading}
               hasError={hasError}
               query={query}
+              rateMovie={this.rateMovie}
+              activeTab={activeTab}
+              ratedMovies={ratedMovies}
+            />
+          </div>
+        ),
+      },
+      {
+        label: 'Rated',
+        key: '2',
+        children: <RatedFilmList ratedMoviesId={ratedMovies} rateMovie={this.rateMovie} />,
+      },
+    ];
+
+    return (
+      <div className="App">
+        <Online>
+          <div className="page-wrapper">
+            <Tabs
+              defaultActiveKey="1"
+              centered
+              onChange={(tabId) => this.setState({ activeTab: tabId })}
+              items={items}
             />
           </div>
         </Online>

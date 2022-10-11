@@ -21,19 +21,30 @@ class FilmCardList extends Component {
   }
 
   render() {
-    const { movies, totalDataItems, isDataLoading, hasError, renderCardListByQureyAndPage, query } =
-      this.props;
+    const {
+      movies,
+      totalDataItems,
+      isDataLoading,
+      hasError,
+      renderCardListByQureyAndPage,
+      query,
+      rateMovie,
+      ratedMovies,
+    } = this.props;
 
     const movieCardsWithPagination = (
       <div className={styles.cardList}>
-        {movies.map(({ title, description, rating, posterImaage, date, id }) => (
+        {movies.map(({ title, description, posterImaage, voteAverage, date, id }) => (
           <FilmCard
             title={title}
             description={description}
-            rating={rating}
+            rating={ratedMovies[id]}
             posterImaage={posterImaage}
+            voteAverage={voteAverage}
             date={date}
             key={id}
+            rateMovie={rateMovie}
+            id={id}
           />
         ))}
       </div>
@@ -88,6 +99,8 @@ FilmCardList.propTypes = {
   hasError: PropTypes.bool.isRequired,
   renderCardListByQureyAndPage: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
+  rateMovie: PropTypes.func.isRequired,
+  ratedMovies: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default FilmCardList;
