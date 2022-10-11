@@ -23,7 +23,6 @@ class App extends Component {
       totalDataItems: 0,
       query: 'return',
       ratedMovies: {},
-      activeTab: 1,
     };
   }
 
@@ -74,8 +73,7 @@ class App extends Component {
   };
 
   render() {
-    const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, activeTab } =
-      this.state;
+    const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies } = this.state;
 
     this.movieService.getGuestSessionId().then((data) => {
       if (!localStorage.getItem('guestSessionId')) {
@@ -102,7 +100,6 @@ class App extends Component {
               hasError={hasError}
               query={query}
               rateMovie={this.rateMovie}
-              activeTab={activeTab}
               ratedMovies={ratedMovies}
             />
           </div>
@@ -119,12 +116,7 @@ class App extends Component {
       <div className="App">
         <Online>
           <div className="page-wrapper">
-            <Tabs
-              defaultActiveKey="1"
-              centered
-              onChange={(tabId) => this.setState({ activeTab: tabId })}
-              items={items}
-            />
+            <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
           </div>
         </Online>
         <Offline>

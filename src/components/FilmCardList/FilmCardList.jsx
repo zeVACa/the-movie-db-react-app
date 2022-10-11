@@ -16,11 +16,15 @@ class FilmCardList extends Component {
   }
 
   componentDidMount() {
+    console.log('search list mount');
+
     const { renderCardListByQureyAndPage } = this.props;
     renderCardListByQureyAndPage('return', 1);
   }
 
   render() {
+    console.log('search list render');
+
     const {
       movies,
       totalDataItems,

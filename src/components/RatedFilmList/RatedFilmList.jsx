@@ -16,6 +16,7 @@ class RatedFilmList extends Component {
   }
 
   componentDidMount() {
+    console.log('rated list mount');
     this.getRatedMovies();
   }
 
@@ -35,6 +36,8 @@ class RatedFilmList extends Component {
   };
 
   render() {
+    console.log('rated list render');
+
     const { ratedMovies } = this.state;
     const { rateMovie, ratedMoviesId } = this.props;
 
