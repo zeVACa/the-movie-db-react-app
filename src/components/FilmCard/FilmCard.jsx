@@ -53,7 +53,7 @@ function FilmCard({
           <GenresContext.Consumer>
             {(allGenres) =>
               allGenres
-                .filter((genre) => genreIds.includes(genre.id))
+                .filter((genre) => genreIds?.includes(genre.id))
                 .slice(0, 6)
                 .map((genre) => (
                   <span className={styles.genre} key={genre.id}>
@@ -65,9 +65,9 @@ function FilmCard({
         </div>
         <div className={styles.descriptionRateColumn}>
           <span className={styles.description}>
-            {description.length > 80
+            {description?.length > 80
               ? ` ${
-                  genreIds.length <= 3 ? description.slice(0, 140) : description.slice(0, 80)
+                  genreIds?.length <= 3 ? description.slice(0, 140) : description.slice(0, 80)
                 } ...`
               : description}
           </span>
@@ -93,12 +93,13 @@ FilmCard.propTypes = {
   rateMovie: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   voteAverage: PropTypes.number,
-  genreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  genreIds: PropTypes.arrayOf(PropTypes.number),
 };
 
 FilmCard.defaultProps = {
   rating: '0',
   voteAverage: 0,
+  genreIds: [],
 };
 
 export default FilmCard;

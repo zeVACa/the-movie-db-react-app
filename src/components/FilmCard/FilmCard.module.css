@@ -81,8 +81,47 @@
   justify-content: space-between;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 510px) {
   .card {
     max-width: 100%;
+    /* max-width: 100px; */
+    position: relative;
+  }
+
+  .imageArea {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 90px;
+    flex-shrink: 0;
+  }
+
+  .description {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    /* padding-left: 0; */
+    padding: 0 10px;
+  }
+
+  .stars {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  .cardContent {
+    padding-left: 80px;
+  }
+
+  .date {
+    margin: 0;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 18px;
   }
 } ;
