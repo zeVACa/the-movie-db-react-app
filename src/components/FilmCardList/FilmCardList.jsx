@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Alert, Spin } from 'antd';
 import FilmCard from '../FilmCard';
 
-import styles from './FilmCardList.module.css';
 import FilmsPagination from '../FilmsPagination/FilmsPagination';
 
 class FilmCardList extends Component {
@@ -50,7 +49,7 @@ class FilmCardList extends Component {
     );
 
     return (
-      <div className={styles.cardList}>
+      <div className="card-list-global">
         {hasError && (
           <Alert
             message="Ошибка!"

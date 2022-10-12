@@ -49,6 +49,19 @@ body {
   align-items: center;
 }
 
+.card-list-global {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+}
+
+@media (max-width: 1010px) {
+  .card-list-global {
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 560px) {
   .page-wrapper {
     padding: 19px 16px;

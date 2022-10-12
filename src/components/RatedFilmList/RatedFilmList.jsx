@@ -2,7 +2,6 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 import FilmCard from '../FilmCard';
-import styles from './RatedFilmList.module.css';
 
 import MovieService from '../../services/MovieService';
 
@@ -58,7 +57,7 @@ class RatedFilmList extends Component {
     );
 
     return (
-      <div className={styles.cardList}>
+      <div className="card-list-global">
         {isDataLoading ? (
           <div className="loader-area">
             <Spin size="large" />
