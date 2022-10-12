@@ -4,6 +4,7 @@ import { Offline, Online } from 'react-detect-offline';
 import { Alert, Tabs } from 'antd';
 
 import MovieService from './services/MovieService';
+import GenresContext from './components/GenresContext';
 
 import FilmCardList from './components/FilmCardList';
 import SearchFilmInput from './components/SearchFilmInput';
@@ -23,18 +24,27 @@ class App extends Component {
       totalDataItems: 0,
       query: 'return',
       ratedMovies: {},
+      genres: [],
     };
   }
 
   componentDidMount() {
-    const moviesId = Object.keys(localStorage).filter((key) => key !== 'guestSessionId');
-    const ratedMovies = {};
+    if (!localStorage.getItem('guestSessionId')) {
+      localStorage.clear();
+      this.movieService.getGuestSessionId().then((data) => {
+        localStorage.setItem('guestSessionId', data.guest_session_id);
+      });
+    } else {
+      const moviesId = Object.keys(localStorage).filter((key) => key !== 'guestSessionId');
+      const ratedMovies = {};
 
-    for (let i = 0; i < moviesId.length; i += 1) {
-      ratedMovies[moviesId[i]] = localStorage.getItem(moviesId[i]);
+      for (let i = 0; i < moviesId.length; i += 1) {
+        ratedMovies[moviesId[i]] = localStorage.getItem(moviesId[i]);
+      }
+
+      this.setState({ ratedMovies });
+      this.movieService.getGenres().then((data) => this.setState({ genres: data.genres }));
     }
-
-    this.setState({ ratedMovies });
   }
 
   renderCardListByQureyAndPage = (query, page) => {
@@ -50,6 +60,7 @@ class App extends Component {
             date: movie.release_date,
             id: movie.id,
             posterImaage: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
+            genreIds: movie.genre_ids,
           })),
           totalDataItems: response.total_results,
           isDataLoading: false,
@@ -73,14 +84,9 @@ class App extends Component {
   };
 
   render() {
-    const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies } = this.state;
-
-    this.movieService.getGuestSessionId().then((data) => {
-      if (!localStorage.getItem('guestSessionId')) {
-        localStorage.clear();
-        localStorage.setItem('guestSessionId', data.guest_session_id);
-      }
-    });
+    const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, genres } =
+      this.state;
+    // const { Provider } = createContext();
 
     const items = [
       {
@@ -115,9 +121,11 @@ class App extends Component {
     return (
       <div className="App">
         <Online>
-          <div className="page-wrapper">
-            <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
-          </div>
+          <GenresContext.Provider value={genres}>
+            <div className="page-wrapper">
+              <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
+            </div>
+          </GenresContext.Provider>
         </Online>
         <Offline>
           <div className="offline-message-area">

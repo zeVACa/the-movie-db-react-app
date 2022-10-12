@@ -1,14 +1,32 @@
-import React from 'react';
 import { Rate } from 'antd';
 
 import PropTypes from 'prop-types';
 
 import 'antd/dist/antd.min.css';
 import styles from './FilmCard.module.css';
+import GenresContext from '../GenresContext';
 
-function FilmCard({ title, description, rating, posterImaage, date, rateMovie, id, voteAverage }) {
+function FilmCard({
+  title,
+  description,
+  rating,
+  posterImaage,
+  date,
+  rateMovie,
+  id,
+  voteAverage,
+  genreIds,
+}) {
   const onRatingChange = (rate) => {
     rateMovie(id, rate);
+  };
+
+  const getAverageVoteColor = (average) => {
+    if (average >= 0 && average < 3) return '#E90000';
+    if (average >= 3 && average < 5) return '#E97E00';
+    if (average >= 5 && average < 7) return '#E9D100';
+    if (average >= 7) return '#66E900';
+    return '#000000';
   };
 
   return (
@@ -23,15 +41,36 @@ function FilmCard({ title, description, rating, posterImaage, date, rateMovie, i
       <div className={styles.cardContent}>
         <div className={styles.titleScoreRow}>
           <h3 className={styles.title}>{title.length > 33 ? `${title.slice(0, 33)}...` : title}</h3>
-          <div className={styles.score}>{voteAverage}</div>
+          <div
+            className={styles.score}
+            style={{ border: `2px solid ${getAverageVoteColor(voteAverage)}` }}
+          >
+            {voteAverage}
+          </div>
         </div>
         <span className={styles.date}>{date}</span>
         <div>
-          <span className={styles.genre}>Action</span>
-          <span className={styles.genre}>Drama</span>
+          <GenresContext.Consumer>
+            {(allGenres) =>
+              allGenres
+                .filter((genre) => genreIds.includes(genre.id))
+                .slice(0, 6)
+                .map((genre) => (
+                  <span className={styles.genre} key={genre.id}>
+                    {genre.name}
+                  </span>
+                ))
+            }
+          </GenresContext.Consumer>
         </div>
         <div className={styles.descriptionRateColumn}>
-          <span className={styles.description}>{`${description.slice(0, 176)} ...`}</span>
+          <span className={styles.description}>
+            {description.length > 80
+              ? ` ${
+                  genreIds.length <= 3 ? description.slice(0, 140) : description.slice(0, 80)
+                } ...`
+              : description}
+          </span>
           <Rate
             defaultValue={rating || 0}
             count={10}
@@ -54,6 +93,7 @@ FilmCard.propTypes = {
   rateMovie: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   voteAverage: PropTypes.number,
+  genreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 FilmCard.defaultProps = {

@@ -9,7 +9,7 @@
 .imageArea {
   width: 183px;
   height: 100%;
-  background-color: blue;
+  background-color: #eaeaea;
   flex-shrink: 0;
 }
 

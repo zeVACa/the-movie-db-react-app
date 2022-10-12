@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Alert, Spin } from 'antd';
 import FilmCard from '../FilmCard';
 
-import styles from './CardList.module.css';
+import styles from './FilmCardList.module.css';
 import FilmsPagination from '../FilmsPagination/FilmsPagination';
 
 class FilmCardList extends Component {
@@ -16,15 +16,11 @@ class FilmCardList extends Component {
   }
 
   componentDidMount() {
-    console.log('search list mount');
-
     const { renderCardListByQureyAndPage } = this.props;
     renderCardListByQureyAndPage('return', 1);
   }
 
   render() {
-    console.log('search list render');
-
     const {
       movies,
       totalDataItems,
@@ -38,7 +34,7 @@ class FilmCardList extends Component {
 
     const movieCardsWithPagination = (
       <div className={styles.cardList}>
-        {movies.map(({ title, description, posterImaage, voteAverage, date, id }) => (
+        {movies.map(({ title, description, posterImaage, voteAverage, date, id, genreIds }) => (
           <FilmCard
             title={title}
             description={description}
@@ -49,6 +45,7 @@ class FilmCardList extends Component {
             key={id}
             rateMovie={rateMovie}
             id={id}
+            genreIds={genreIds}
           />
         ))}
       </div>
@@ -71,7 +68,6 @@ class FilmCardList extends Component {
         ) : (
           !hasError && movies.length !== 0 && movieCardsWithPagination
         )}
-
         {!hasError && (
           <FilmsPagination
             totalDataItems={totalDataItems}

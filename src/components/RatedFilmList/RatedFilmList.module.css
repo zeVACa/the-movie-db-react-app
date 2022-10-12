@@ -4,3 +4,10 @@
   justify-content: space-between;
   padding-top: 20px;
 }
+
+@media (max-width: 1010px) {
+  .cardList {
+    align-items: center;
+    flex-direction: column;
+  }
+} ;

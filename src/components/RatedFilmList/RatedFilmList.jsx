@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Spin } from 'antd';
 import FilmCard from '../FilmCard';
 import styles from './RatedFilmList.module.css';
 
@@ -12,11 +13,11 @@ class RatedFilmList extends Component {
     super();
     this.state = {
       ratedMovies: [],
+      isDataLoading: true,
     };
   }
 
   componentDidMount() {
-    console.log('rated list mount');
     this.getRatedMovies();
   }
 
@@ -31,35 +32,41 @@ class RatedFilmList extends Component {
           date: movie.release_date,
           id: movie.id,
         })),
+        isDataLoading: false,
       })
     );
   };
 
   render() {
-    console.log('rated list render');
-
-    const { ratedMovies } = this.state;
+    const { ratedMovies, isDataLoading } = this.state;
     const { rateMovie, ratedMoviesId } = this.props;
+
+    const moviesCards = ratedMovies.map(
+      ({ title, description, voteAverage, posterImaage, date, id }) => (
+        <FilmCard
+          title={title}
+          description={description}
+          rating={ratedMoviesId[id]}
+          posterImaage={posterImaage}
+          voteAverage={voteAverage}
+          date={date}
+          key={id}
+          rateMovie={rateMovie}
+          id={id}
+        />
+      )
+    );
 
     return (
       <div className={styles.cardList}>
-        {ratedMovies.length > 0 ? (
-          ratedMovies.map(({ title, description, voteAverage, posterImaage, date, id }) => (
-            <FilmCard
-              title={title}
-              description={description}
-              rating={ratedMoviesId[id]}
-              posterImaage={posterImaage}
-              voteAverage={voteAverage}
-              date={date}
-              key={id}
-              rateMovie={rateMovie}
-              id={id}
-            />
-          ))
+        {isDataLoading ? (
+          <div className="loader-area">
+            <Spin size="large" />
+          </div>
         ) : (
-          <h2>Вы пока не оценили ни один фильм</h2>
+          ratedMovies.length > 0 && moviesCards
         )}
+        {!isDataLoading && ratedMovies.length === 0 && <h2>Вы пока не оценили ни один фильм</h2>}
       </div>
     );
   }
