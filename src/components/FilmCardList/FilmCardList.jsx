@@ -32,27 +32,25 @@ class FilmCardList extends Component {
       ratedMovies,
     } = this.props;
 
-    const movieCardsWithPagination = (
-      <div className={styles.cardList}>
-        {movies.map(({ title, description, posterImaage, voteAverage, date, id, genreIds }) => (
-          <FilmCard
-            title={title}
-            description={description}
-            rating={ratedMovies[id]}
-            posterImaage={posterImaage}
-            voteAverage={voteAverage}
-            date={date}
-            key={id}
-            rateMovie={rateMovie}
-            id={id}
-            genreIds={genreIds}
-          />
-        ))}
-      </div>
+    const movieCardsWithPagination = movies.map(
+      ({ title, description, posterImaage, voteAverage, date, id, genreIds }) => (
+        <FilmCard
+          title={title}
+          description={description}
+          rating={ratedMovies[id]}
+          posterImaage={posterImaage}
+          voteAverage={voteAverage}
+          date={date}
+          key={id}
+          rateMovie={rateMovie}
+          id={id}
+          genreIds={genreIds}
+        />
+      )
     );
 
     return (
-      <div>
+      <div className={styles.cardList}>
         {hasError && (
           <Alert
             message="Ошибка!"
