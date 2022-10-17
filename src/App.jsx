@@ -59,7 +59,9 @@ class App extends Component {
             voteAverage: movie.vote_average,
             date: movie.release_date,
             id: movie.id,
-            posterImaage: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
+            posterImaage: movie.poster_path
+              ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+              : null,
             genreIds: movie.genre_ids,
           })),
           totalDataItems: response.total_results,
