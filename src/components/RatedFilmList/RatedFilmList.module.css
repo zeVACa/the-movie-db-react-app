@@ -1,8 +1,14 @@
 .cardList {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: space-between !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 @media (max-width: 1010px) {

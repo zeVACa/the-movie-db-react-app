@@ -4,6 +4,12 @@
   justify-content: space-between !important;
 }
 
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 1010px) {
   .cardList {
     align-items: center;

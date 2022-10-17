@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import 'antd/dist/antd.min.css';
 import styles from './FilmCard.module.css';
 import GenresContext from '../GenresContext';
+import imageNotFound from '../../assets/images/image-not-found-scaled-1150x647.png';
 
 function FilmCard({
   title,
@@ -33,10 +34,18 @@ function FilmCard({
     <div className={styles.card}>
       <div
         className={styles.imageArea}
-        style={{
-          backgroundImage: `url("${posterImaage}")`,
-          backgroundSize: 'cover',
-        }}
+        style={
+          posterImaage
+            ? {
+                backgroundImage: `url("${posterImaage}")`,
+                backgroundSize: 'cover',
+              }
+            : {
+                backgroundImage: `url(${imageNotFound})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+              }
+        }
       />
       <div className={styles.cardContent}>
         <div className={styles.titleScoreRow}>

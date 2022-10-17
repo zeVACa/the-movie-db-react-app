@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
-
 import { Alert, Spin } from 'antd';
 import FilmCard from '../FilmCard';
+import styles from './FilmCardList.module.css';
 
 import FilmsPagination from '../FilmsPagination/FilmsPagination';
 
@@ -66,11 +65,13 @@ class FilmCardList extends Component {
           !hasError && movies.length !== 0 && movieCardsWithPagination
         )}
         {!hasError && (
-          <FilmsPagination
-            totalDataItems={totalDataItems}
-            renderCardListByQureyAndPage={renderCardListByQureyAndPage}
-            query={query}
-          />
+          <div className={styles.pagination}>
+            <FilmsPagination
+              totalDataItems={totalDataItems}
+              renderCardListByQureyAndPage={renderCardListByQureyAndPage}
+              query={query}
+            />
+          </div>
         )}
         {!isDataLoading && !hasError && movies.length === 0 && (
           <h2>По вашему запросу ничего не было найдено. Попробуй еще раз!</h2>

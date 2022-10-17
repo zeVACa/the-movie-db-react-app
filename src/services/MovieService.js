@@ -51,12 +51,12 @@ export default class MovieService {
     return res.json();
   }
 
-  async getRatedMovies() {
+  async getRatedMovies(page) {
     const { BASE_URL, API_KEY } = this;
 
     const guestSessionId = localStorage.getItem('guestSessionId');
 
-    const url = `${BASE_URL}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}`;
+    const url = `${BASE_URL}/guest_session/${guestSessionId}/rated/movies?api_key=${API_KEY}&page=${page}`;
 
     const res = await fetch(url);
 

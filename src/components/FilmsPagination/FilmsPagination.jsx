@@ -16,8 +16,8 @@ class FilmsPagination extends Component {
 
   onChangeHandle = (page) => {
     const { renderCardListByQureyAndPage, query } = this.props;
-    renderCardListByQureyAndPage(query, page);
     this.setState({ page });
+    renderCardListByQureyAndPage(query, page);
   };
 
   render() {
@@ -32,6 +32,7 @@ class FilmsPagination extends Component {
           onChange={this.onChangeHandle}
           hideOnSinglePage
           current={page}
+          defaultCurrent={1}
         />
       </div>
     );
