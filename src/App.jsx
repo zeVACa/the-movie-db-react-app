@@ -43,29 +43,22 @@ class App extends Component {
       })
       .then((pages) => {
         const allMovies = [];
+
         for (let i = 1; i <= pages; i++) {
           allMovies.push(this.movieService.getRatedMovies(i));
         }
 
-        Promise.all(allMovies).then(
-          (data) => {
-            this.setState({
-              ratedMovies: data
-                .reduce((accum, page) => [...accum, ...page.results], [])
-                .map((movie) => ({ [movie.id]: movie.rating }))
-                .reduce(
-                  (accum, obj) => ({ ...accum, [Object.keys(obj)[0]]: obj[Object.keys(obj)[0]] }),
-                  {}
-                ),
-            });
-          }
-
-          // this.setState({
-          //   ratedMovies: data
-          //     .reduce((accum, page) => ({ ...accum, ...page.results }), {})
-          //     .map((movie) => ({ [movie.id]: movie.rating })),
-          // })
-        );
+        Promise.all(allMovies).then((data) => {
+          this.setState({
+            ratedMovies: data
+              .reduce((accum, page) => [...accum, ...page.results], [])
+              .map((movie) => ({ [movie.id]: movie.rating }))
+              .reduce(
+                (accum, obj) => ({ ...accum, [Object.keys(obj)[0]]: obj[Object.keys(obj)[0]] }),
+                {}
+              ),
+          });
+        });
       });
   }
 

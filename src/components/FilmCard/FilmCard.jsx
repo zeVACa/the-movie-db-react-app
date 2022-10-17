@@ -11,7 +11,7 @@ function FilmCard({
   title,
   description,
   rating,
-  posterImaage,
+  posterImage,
   date,
   rateMovie,
   id,
@@ -35,9 +35,9 @@ function FilmCard({
       <div
         className={styles.imageArea}
         style={
-          posterImaage
+          posterImage
             ? {
-                backgroundImage: `url("${posterImaage}")`,
+                backgroundImage: `url("${posterImage}")`,
                 backgroundSize: 'cover',
               }
             : {
@@ -97,7 +97,7 @@ FilmCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   rating: PropTypes.number,
-  posterImaage: PropTypes.string.isRequired,
+  posterImage: PropTypes.string,
   date: PropTypes.string.isRequired,
   rateMovie: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
@@ -109,6 +109,7 @@ FilmCard.defaultProps = {
   rating: 0,
   voteAverage: 0,
   genreIds: [],
+  posterImage: null,
 };
 
 export default FilmCard;

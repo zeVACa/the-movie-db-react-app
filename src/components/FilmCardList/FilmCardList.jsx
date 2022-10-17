@@ -36,7 +36,7 @@ class FilmCardList extends Component {
           title={title}
           description={description}
           rating={ratedMovies[id]}
-          posterImaage={posterImaage}
+          posterImage={posterImaage}
           voteAverage={voteAverage}
           date={date}
           key={id}
