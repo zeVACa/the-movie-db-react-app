@@ -37,20 +37,6 @@ export default class MovieService {
     return res.json();
   }
 
-  async getGuestSessionId() {
-    const { BASE_URL, API_KEY } = this;
-
-    const url = `${BASE_URL}/authentication/guest_session/new?api_key=${API_KEY}`;
-
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error('server error');
-    }
-
-    return res.json();
-  }
-
   async getRatedMovies(page) {
     const { BASE_URL, API_KEY } = this;
 

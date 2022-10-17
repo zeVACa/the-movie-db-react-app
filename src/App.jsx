@@ -1,10 +1,10 @@
-/* eslint-disable */
 import { Component } from 'react';
 
 import { Offline, Online } from 'react-detect-offline';
 import { Alert, Tabs } from 'antd';
 
 import MovieService from './services/MovieService';
+import SessionService from './services/SessionSevice';
 import GenresContext from './components/GenresContext';
 
 import FilmCardList from './components/FilmCardList';
@@ -15,6 +15,8 @@ import RatedFilmList from './components/RatedFilmList/RatedFilmList';
 
 class App extends Component {
   movieService = new MovieService();
+
+  sessionService = new SessionService();
 
   constructor() {
     super();
@@ -31,26 +33,32 @@ class App extends Component {
 
   componentDidMount() {
     if (!localStorage.getItem('guestSessionId')) {
-      this.movieService.getGuestSessionId().then((data) => {
-        localStorage.setItem('guestSessionId', data.guest_session_id);
-      });
+      this.sessionService
+        .getGuestSessionId()
+        .then((data) => {
+          localStorage.setItem('guestSessionId', data.guest_session_id);
+        })
+        .then(() => this.getRatedMovies());
+      return;
     }
 
+    this.getRatedMovies();
+  }
+
+  getRatedMovies = () => {
     this.movieService
       .getRatedMovies(1)
-      .then((data) => {
-        return data.total_pages;
-      })
+      .then((res) => res.total_pages)
       .then((pages) => {
         const allMovies = [];
 
-        for (let i = 1; i <= pages; i++) {
+        for (let i = 1; i <= pages; i += 1) {
           allMovies.push(this.movieService.getRatedMovies(i));
         }
 
-        Promise.all(allMovies).then((data) => {
+        Promise.all(allMovies).then((res) => {
           this.setState({
-            ratedMovies: data
+            ratedMovies: res
               .reduce((accum, page) => [...accum, ...page.results], [])
               .map((movie) => ({ [movie.id]: movie.rating }))
               .reduce(
@@ -60,7 +68,7 @@ class App extends Component {
           });
         });
       });
-  }
+  };
 
   renderCardListByQureyAndPage = (query, page) => {
     this.setState({ isDataLoading: true });
@@ -93,7 +101,6 @@ class App extends Component {
   };
 
   rateMovie = (id, rating) => {
-    localStorage.setItem(id, rating);
     this.movieService.sendMovieRate(id, rating);
     this.setState((state) => ({
       ratedMovies: { ...state.ratedMovies, [id]: rating },
@@ -103,6 +110,8 @@ class App extends Component {
   render() {
     const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, genres } =
       this.state;
+
+    console.log(ratedMovies);
 
     const items = [
       {
