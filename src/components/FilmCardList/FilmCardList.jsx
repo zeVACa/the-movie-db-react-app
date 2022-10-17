@@ -98,7 +98,7 @@ FilmCardList.propTypes = {
   renderCardListByQureyAndPage: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   rateMovie: PropTypes.func.isRequired,
-  ratedMovies: PropTypes.objectOf(PropTypes.string).isRequired,
+  ratedMovies: PropTypes.shape({}).isRequired,
 };
 
 export default FilmCardList;

@@ -25,7 +25,6 @@ class RatedFilmList extends Component {
 
   getRatedMovies = (page) => {
     this.movieService.getRatedMovies(page).then((data) => {
-      console.log(data);
       this.setState({
         ratedMovies: data.results.map((movie) => ({
           title: movie.original_title,
@@ -52,8 +51,6 @@ class RatedFilmList extends Component {
   render() {
     const { ratedMovies, isDataLoading, page, totalDataItems } = this.state;
     const { rateMovie, ratedMoviesId } = this.props;
-
-    console.log(ratedMovies);
 
     const moviesCardsWithPagination = (
       <div className="card-list-global">
@@ -103,7 +100,7 @@ class RatedFilmList extends Component {
 
 RatedFilmList.propTypes = {
   rateMovie: PropTypes.func.isRequired,
-  ratedMoviesId: PropTypes.objectOf(PropTypes.string).isRequired,
+  ratedMoviesId: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default RatedFilmList;

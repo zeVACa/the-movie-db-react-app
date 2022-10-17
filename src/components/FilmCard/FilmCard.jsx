@@ -81,7 +81,7 @@ function FilmCard({
               : description}
           </span>
           <Rate
-            defaultValue={rating || 0}
+            value={rating}
             count={10}
             className={styles.stars}
             onChange={onRatingChange}
@@ -96,7 +96,7 @@ function FilmCard({
 FilmCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  rating: PropTypes.string,
+  rating: PropTypes.number,
   posterImaage: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   rateMovie: PropTypes.func.isRequired,
@@ -106,7 +106,7 @@ FilmCard.propTypes = {
 };
 
 FilmCard.defaultProps = {
-  rating: '0',
+  rating: 0,
   voteAverage: 0,
   genreIds: [],
 };

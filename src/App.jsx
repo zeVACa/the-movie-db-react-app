@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Component } from 'react';
 
 import { Offline, Online } from 'react-detect-offline';
@@ -30,21 +31,42 @@ class App extends Component {
 
   componentDidMount() {
     if (!localStorage.getItem('guestSessionId')) {
-      localStorage.clear();
       this.movieService.getGuestSessionId().then((data) => {
         localStorage.setItem('guestSessionId', data.guest_session_id);
       });
-    } else {
-      const moviesId = Object.keys(localStorage).filter((key) => key !== 'guestSessionId');
-      const ratedMovies = {};
-
-      for (let i = 0; i < moviesId.length; i += 1) {
-        ratedMovies[moviesId[i]] = localStorage.getItem(moviesId[i]);
-      }
-
-      this.setState({ ratedMovies });
-      this.movieService.getGenres().then((data) => this.setState({ genres: data.genres }));
     }
+
+    this.movieService
+      .getRatedMovies(1)
+      .then((data) => {
+        return data.total_pages;
+      })
+      .then((pages) => {
+        const allMovies = [];
+        for (let i = 1; i <= pages; i++) {
+          allMovies.push(this.movieService.getRatedMovies(i));
+        }
+
+        Promise.all(allMovies).then(
+          (data) => {
+            this.setState({
+              ratedMovies: data
+                .reduce((accum, page) => [...accum, ...page.results], [])
+                .map((movie) => ({ [movie.id]: movie.rating }))
+                .reduce(
+                  (accum, obj) => ({ ...accum, [Object.keys(obj)[0]]: obj[Object.keys(obj)[0]] }),
+                  {}
+                ),
+            });
+          }
+
+          // this.setState({
+          //   ratedMovies: data
+          //     .reduce((accum, page) => ({ ...accum, ...page.results }), {})
+          //     .map((movie) => ({ [movie.id]: movie.rating })),
+          // })
+        );
+      });
   }
 
   renderCardListByQureyAndPage = (query, page) => {
@@ -81,14 +103,13 @@ class App extends Component {
     localStorage.setItem(id, rating);
     this.movieService.sendMovieRate(id, rating);
     this.setState((state) => ({
-      ratedMovies: { ...state.ratedMovies, [id]: String(rating) },
+      ratedMovies: { ...state.ratedMovies, [id]: rating },
     }));
   };
 
   render() {
     const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, genres } =
       this.state;
-    // const { Provider } = createContext();
 
     const items = [
       {
