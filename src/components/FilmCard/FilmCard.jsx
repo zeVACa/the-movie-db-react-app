@@ -30,6 +30,8 @@ function FilmCard({
     return '#000000';
   };
 
+  console.log(posterImage);
+
   return (
     <div className={styles.card}>
       <div

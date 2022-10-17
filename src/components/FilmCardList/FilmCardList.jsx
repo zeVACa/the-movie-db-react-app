@@ -31,12 +31,12 @@ class FilmCardList extends Component {
     } = this.props;
 
     const movieCardsWithPagination = movies.map(
-      ({ title, description, posterImaage, voteAverage, date, id, genreIds }) => (
+      ({ title, description, posterImage, voteAverage, date, id, genreIds }) => (
         <FilmCard
           title={title}
           description={description}
           rating={ratedMovies[id]}
-          posterImage={posterImaage}
+          posterImage={posterImage}
           voteAverage={voteAverage}
           date={date}
           key={id}
@@ -89,7 +89,7 @@ FilmCardList.propTypes = {
       rating: PropTypes.number,
       date: PropTypes.string,
       id: PropTypes.number,
-      posterImaage: PropTypes.string,
+      posterImage: PropTypes.string,
     })
   ).isRequired,
   totalDataItems: PropTypes.number.isRequired,

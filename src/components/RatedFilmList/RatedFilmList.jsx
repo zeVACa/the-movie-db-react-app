@@ -30,7 +30,7 @@ class RatedFilmList extends Component {
           title: movie.original_title,
           description: movie.overview,
           voteAverage: Math.floor(movie.vote_average * 10) / 10,
-          posterImaage: movie.poster_path
+          posterImage: movie.poster_path
             ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
             : null,
           date: movie.release_date,
@@ -54,22 +54,20 @@ class RatedFilmList extends Component {
 
     const moviesCardsWithPagination = (
       <div className="card-list-global">
-        {ratedMovies.map(
-          ({ title, description, voteAverage, posterImaage, date, id, genreIds }) => (
-            <FilmCard
-              title={title}
-              description={description}
-              rating={ratedMoviesId[id]}
-              posterImaage={posterImaage}
-              voteAverage={voteAverage}
-              date={date}
-              key={id}
-              rateMovie={rateMovie}
-              id={id}
-              genreIds={genreIds}
-            />
-          )
-        )}
+        {ratedMovies.map(({ title, description, voteAverage, posterImage, date, id, genreIds }) => (
+          <FilmCard
+            title={title}
+            description={description}
+            rating={ratedMoviesId[id]}
+            posterImage={posterImage}
+            voteAverage={voteAverage}
+            date={date}
+            key={id}
+            rateMovie={rateMovie}
+            id={id}
+            genreIds={genreIds}
+          />
+        ))}
         {!isDataLoading && ratedMovies.length !== 0 && (
           <div className={styles.pagination}>
             <Pagination
