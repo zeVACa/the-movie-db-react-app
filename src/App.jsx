@@ -38,11 +38,15 @@ class App extends Component {
         .then((data) => {
           localStorage.setItem('guestSessionId', data.guest_session_id);
         })
-        .then(() => this.getRatedMovies());
+        .then(() => this.getRatedMovies())
+        .then(() => this.movieService.getGenres())
+        .then((data) => this.setState({ genres: data.genres }));
+      this.movieService.getGenres().then((data) => this.setState({ genres: data.genres }));
       return;
     }
 
     this.getRatedMovies();
+    this.movieService.getGenres().then((data) => this.setState({ genres: data.genres }));
   }
 
   getRatedMovies = () => {
@@ -110,8 +114,6 @@ class App extends Component {
   render() {
     const { movies, totalDataItems, isDataLoading, hasError, query, ratedMovies, genres } =
       this.state;
-
-    console.log(ratedMovies);
 
     const items = [
       {
